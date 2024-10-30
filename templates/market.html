@@ -1,0 +1,1347 @@
+{% extends "apps/include_base/base.html" %}
+
+
+{% block body %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Oqim yaratish</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" class="form-class">
+                                <input type="hidden" name="csrfmiddlewaretoken"
+                                       value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T">
+                                <input name="product_id" type="hidden" id="hidden_product" value="test">
+
+                                Oqim nomi <input type="text" name="title" class="form-control" placeholder=""
+                                                 mt-2="Oqim uchun nom kiriting" required="" id="id_title">
+
+                                Chegirma <input type="text" name="discount" class="form-control" placeholder=""
+                                                mt-2="Chegirma miqdori: {{ product.benefit }} so'mgacha"
+                                                id="id_discount">
+
+                                <input type="submit" class="btn btn-primary mt-4" value="Oqim yaratish">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <br>
+                <br>
+                <h3 class="text-center"> Hozirda sotuvda bor <br> mahsulotlar </h3>
+                <br>
+
+                <div class="container border-bottom-4">
+                    <div class="header_tab_menu">
+                        <div class="header_menu" style="overflow: auto">
+                            <a href="/admin_page/market/" class="btn btn-default"> Hammasi </a>
+                            <a href="/admin_page/market/?category=top" class="btn btn-default"> Top tovarlar </a>
+
+                            <a href="/admin_page/market/?category=uy-uchun" class="btn btn-default"> Uy uchun </a>
+                            <a href="/admin_page/market/?category=bolalar-uchun" class="btn btn-default"> Bolalar
+                                uchun </a>
+                            <a href="/admin_page/market/?category=sovga" class="btn btn-default"> Sovg'a </a>
+                            <a href="/admin_page/market/?category=ayollar" class="btn btn-default"> Ayollar </a>
+                            <a href="/admin_page/market/?category=davolovchi-mahsulotlar" class="btn btn-default">
+                                Davolovchi mahsulotlar </a>
+                            <a href="/admin_page/market/?category=erkaklar-uchun" class="btn btn-default"> Erkaklar
+                                uchun </a>
+                            <a href="/admin_page/market/?category=fitnes" class="btn btn-default"> Fitnes </a>
+                            <a href="/admin_page/market/?category=davolovchi-mazlar" class="btn btn-default"> Davolovchi
+                                mazlar </a>
+                            <a href="/admin_page/market/?category=moshina-uchun" class="btn btn-default"> Moshina
+                                uchun </a>
+                            <a href="/admin_page/market/?category=kitoblar" class="btn btn-default"> Kitoblar </a>
+                            <a href="/admin_page/market/?category=aqlli-soatlar" class="btn btn-default"> Aqlli
+                                soatlar </a>
+                            <a href="/admin_page/market/?category=atir" class="btn btn-default"> Atir </a>
+                            <a href="/admin_page/market/?category=yangi-yel-maxsulotlari" class="btn btn-default"> Yangi
+                                yel
+                                maxsulotlari </a>
+                            <a href="/admin_page/market/?category=eliktironika" class="btn btn-default">
+                                Eliktironika </a>
+                        </div>
+                        <div class="search-box" style="width: 100%;">
+                            <form action="/admin_page/market/" method="GET" class="position-relative"
+                                  style="width: 100%"
+                                  data-bs-display="static" autocomplete="off">
+                                <input type="hidden" name="csrfmiddlewaretoken"
+                                       value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T">
+                                <input id="search-input" name="q" class="form-control search-input" type="search"
+                                       placeholder="Qidiruv..." aria-label="Search">
+                                <svg class="svg-inline--fa fa-search fa-w-16 search-box-icon" aria-hidden="true"
+                                     focusable="false" data-prefix="fas" data-icon="search" role="img"
+                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+                                    <path fill="currentColor"
+                                          d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
+                                </svg>
+                                <!-- <span class="fas fa-search search-box-icon"></span> Font Awesome fontawesome.com -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/casio-qol-soati-erkaklar-va-ayollar-uchun" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2248.jpeg"
+                                     alt="Casio qo’l soati erkaklar va ayollar uchun">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/casio-qol-soati-erkaklar-va-ayollar-uchun" target="_blank">
+                                        Casio qo’l soati erkaklar va ayollar uchun
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 87000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 500 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="481"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1656"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="481">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/481" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/casio-water-resist-50m" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2246.jpeg"
+                                     alt="Casio water resist 50.m">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/casio-water-resist-50m" target="_blank">
+                                        Casio water resist 50.m
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 109000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 600 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="480"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1653"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="480">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/480" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/savdogarlar-ustozi-1-va-2-kitoblar-yana-sotuvda" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2202.jpeg"
+                                     alt="Savdogarlar ustozi 1 va 2-kitoblar yana sotuvda">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/savdogarlar-ustozi-1-va-2-kitoblar-yana-sotuvda"
+                                       target="_blank">
+                                        Savdogarlar ustozi 1 va 2-kitoblar yana sotuvda
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 99000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 700 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="479"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1652"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="479">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/479" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/ayol-immun-sino-tib-fermasi" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_1988.jpeg"
+                                     alt="Ayol immun sino tib fermasi">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/ayol-immun-sino-tib-fermasi" target="_blank">
+                                        Ayol immun sino tib fermasi
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 169000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>40000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 300 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="478"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1647"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="478">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/478" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/nabaviy-tarbiya" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2190.jpeg" alt="Nabaviy tarbiya">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/nabaviy-tarbiya" target="_blank">
+                                        Nabaviy tarbiya
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 119000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 700 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="477"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1639"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="477">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/477" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/polycarbon-qol-soati" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2189.jpeg"
+                                     alt="POLYCARBON Qo'l Soati">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/polycarbon-qol-soati" target="_blank">
+                                        POLYCARBON Qo'l Soati
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 129000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>35000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 500 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="476"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1626"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="476">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/476" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/hublot-geneve" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2185.jpeg" alt="Hublot geneve">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/hublot-geneve" target="_blank">
+                                        Hublot geneve
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 69000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 600 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="475"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1622"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="475">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/475" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/erkaklar-uchun-magnetli-ichki-kiyim" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2173.jpeg"
+                                     alt="Erkaklar uchun magnetli ichki kiyim">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/erkaklar-uchun-magnetli-ichki-kiyim" target="_blank">
+                                        Erkaklar uchun magnetli ichki kiyim
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 109000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>35000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 700 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="474"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1619"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="474">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/474" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/patek-filip-ozbekiston-gerbi-tushirilgan-soat" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2166.jpeg"
+                                     alt="(Patek filip) O‘zbekiston gerbi tushirilgan soat">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/patek-filip-ozbekiston-gerbi-tushirilgan-soat"
+                                       target="_blank">
+                                        (Patek filip) O‘zbekiston gerbi tushirilgan soat
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 69000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 500 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="473"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1616"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="473">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/473" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/fucda-soati" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2146.jpeg" alt="Fucda soati">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/fucda-soati" target="_blank">
+                                        Fucda soati
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 109000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 600 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="472"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1612"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="472">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/472" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/avtomobil-uchun-elektron-soat" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2132.jpeg"
+                                     alt="Avtomobil uchun elektron soat">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/avtomobil-uchun-elektron-soat" target="_blank">
+                                        Avtomobil uchun elektron soat
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 77000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 600 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="471"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1608"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="471">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/471" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/mukoshafatul-qulub-kitobi" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2116.jpeg"
+                                     alt="MUKOSHAFATUL QULUB kitobi">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/mukoshafatul-qulub-kitobi" target="_blank">
+                                        MUKOSHAFATUL QULUB kitobi
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 137000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>35000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 600 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="470"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1607"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="470">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/470" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/cho%CA%BBziluvchan-kapron" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2106.jpeg"
+                                     alt="Choʻziluvchan kapron.">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/cho%CA%BBziluvchan-kapron" target="_blank">
+                                        Choʻziluvchan kapron.
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 69000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 800 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="469"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1606"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="469">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/469" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/avtomobil-plastik-qisimlari-uchun-gel" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2104.jpeg"
+                                     alt="Avtomobil plastik qisimlari uchun gel">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/avtomobil-plastik-qisimlari-uchun-gel" target="_blank">
+                                        Avtomobil plastik qisimlari uchun gel
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 69000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 600 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="468"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1605"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="468">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/468" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/nokia-6310" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2103.jpeg" alt="Nokia 6310">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/nokia-6310" target="_blank">
+                                        Nokia 6310
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 209000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 500 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="467"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1604"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="467">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/467" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/pres-uchun-rolik" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2100.jpeg" alt="Pres uchun rolik">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/pres-uchun-rolik" target="_blank">
+                                        Pres uchun rolik
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 157000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>47000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 650 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="466"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1603"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="466">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/466" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/vosmoy-soch-uchun-balzam-camera" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2091.jpeg"
+                                     alt="Vosmoy soch uchun balzam Camera">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/vosmoy-soch-uchun-balzam-camera" target="_blank">
+                                        Vosmoy soch uchun balzam Camera
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 69000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 870 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="465"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1602"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="465">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/465" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/ozbekiston-gerbi-va-xaritasi-tushirilgan-soat" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2036.jpeg"
+                                     alt="O‘zbekiston gerbi va xaritasi tushirilgan soat">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/ozbekiston-gerbi-va-xaritasi-tushirilgan-soat"
+                                       target="_blank">
+                                        O‘zbekiston gerbi va xaritasi tushirilgan soat
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 83000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 900 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="464"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1595"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="464">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/464" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/polirol-avtomashina-uchun" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2034.jpeg"
+                                     alt="POLIROFKA AVTOMASHINA UCHUN (sarqi karopka)">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/polirol-avtomashina-uchun" target="_blank">
+                                        POLIROFKA AVTOMASHINA UCHUN (sarqi karopka)
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 89000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 670 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="463"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1593"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="463">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/463" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/universal-gadjet-2" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2015.jpeg" alt="Universal Gadjet (2)">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/universal-gadjet-2" target="_blank">
+                                        Universal Gadjet (2)
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 199000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>40000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 500 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="462"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1589"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="462">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/462" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/universal-gadjet-1" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2014.jpeg" alt="Universal Gadjet (1)">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/universal-gadjet-1" target="_blank">
+                                        Universal Gadjet (1)
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 199000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>40000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 500 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="461"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1585"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="461">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/461" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/bolalar-uchun-havoli-grusha" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2012.jpeg"
+                                     alt="Bolalar uchun havoli grusha">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/bolalar-uchun-havoli-grusha" target="_blank">
+                                        Bolalar uchun havoli grusha
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 79000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 780 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="460"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1581"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="460">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/460" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/erkaklar-uchun-tissot-1853-prx-qol-soati" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2004.jpeg"
+                                     alt="Erkaklar uchun Tissot 1853 PRX qo'l soati">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/erkaklar-uchun-tissot-1853-prx-qol-soati" target="_blank">
+                                        Erkaklar uchun Tissot 1853 PRX qo'l soati
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 149000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>35000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 670 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="459"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1577"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="459">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/459" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/bio-dance-mask" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_2002.jpeg" alt="Bio dance mask">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/bio-dance-mask" target="_blank">
+                                        Bio dance mask
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 69000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>33000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 990 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="458"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1573"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="458">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/458" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/rolex-lux-copy" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_1998.jpeg" alt="Rolex Lux Copy">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/rolex-lux-copy" target="_blank">
+                                        Rolex Lux Copy
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 69000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 780 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="457"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1570"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="457">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/457" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/richard-mille-lux-copy" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_1997.jpeg"
+                                     alt="Richard Mille / Lux copy">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/richard-mille-lux-copy" target="_blank">
+                                        Richard Mille / Lux copy
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 99000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 780 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="456"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1568"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="456">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/456" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/rashota-erkaklar-mexanik-qol-soati" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_1994.jpeg"
+                                     alt="Rashota erkaklar mexanik qo'l soati">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/rashota-erkaklar-mexanik-qol-soati" target="_blank">
+                                        Rashota erkaklar mexanik qo'l soati
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 99000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>30000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 780 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="455"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1564"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="455">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/455" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/%D2%9B%D1%83%D1%80%D1%8A%D0%BE%D0%BD%D0%B8-%D0%BA%D0%B0%D1%80%D0%B8%D0%BC-%D1%88%D0%B0%D1%84%D0%BE%D0%B0%D1%82%D0%B8"
+                               target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_1943.jpeg"
+                                     alt="Қуръони Карим шафоати">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/%D2%9B%D1%83%D1%80%D1%8A%D0%BE%D0%BD%D0%B8-%D0%BA%D0%B0%D1%80%D0%B8%D0%BC-%D1%88%D0%B0%D1%84%D0%BE%D0%B0%D1%82%D0%B8"
+                                       target="_blank">
+                                        Қуръони Карим шафоати
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 99000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>35000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 780 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="454"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1560"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="454">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/454" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/fito-svecha-ayollar-va-erkaklar-uchun" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_1931.jpeg"
+                                     alt="Fito svecha&quot; ayollar va erkaklar uchun">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/fito-svecha-ayollar-va-erkaklar-uchun" target="_blank">
+                                        Fito svecha" ayollar va erkaklar uchun
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 99000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>35000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 670 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="453"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1555"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="453">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/453" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-2">
+                        <div class="card">
+                            <a href="/product-detail/vaseline-ultra-moisturizing-cream" target="_blank">
+                                <img class="card-img-top" src="/media/product/IMG_4600.jpeg"
+                                     alt="vaseline ultra- moisturizing cream">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product-detail/vaseline-ultra-moisturizing-cream" target="_blank">
+                                        vaseline ultra- moisturizing cream
+                                    </a>
+                                </h5>
+                                <p class="text-muted"> 69000 so'm </p>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">To'lov: <strong>35000 </strong></li>
+
+                                <li class="list-group-item">Zaxirada: <strong> 900 ta </strong>
+                                </li>
+
+                                <li class="list-group-item">Chegirma: <strong> yuq </strong>
+                                </li>
+
+                            </ul>
+
+                            <!-- <form method="post"> <input type="hidden" name="csrfmiddlewaretoken" value="O4t0j8XGmA5QoeBzv8xABK4xgHck04yQsyRAFAoIoVcU6iZjovFukVanciJKcR0T"> <input type="hidden" name="product_id" value="452"> <input type="submit" value="Oqim yaratish" class="btn btn-primary"> </form> -->
+
+                            <a href="https://t.me/alijahon_uz_Internet_magazin/1553"
+                               class="btn bg-danger text-white mt-2">Reklama
+                                Posti</a>
+                            <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="452">
+                                Oqim yaratish
+                            </button>
+                            <a href="/admin_page/product/452" class="btn bg-danger text-white mt-2">Batafsil</a>
+                        </div>
+                    </div>
+
+
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+
+
+                            <li class="page-item"><a class="page-link"
+                                                     href="/admin_page/market/?attempt=1&amp;page=1">1</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link text-primary"
+                                                     href="/admin_page/market/?attempt=1&amp;page=2">2</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link text-primary"
+                                                     href="/admin_page/market/?attempt=1&amp;page=3">3</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link text-primary"
+                                                     href="/admin_page/market/?attempt=1&amp;page=4">4</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link text-primary"
+                                                     href="/admin_page/market/?attempt=1&amp;page=5">5</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link text-primary"
+                                                     href="/admin_page/market/?attempt=1&amp;page=6">6</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link text-primary"
+                                                     href="/admin_page/market/?attempt=1&amp;page=7">7</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link text-primary"
+                                                     href="/admin_page/market/?attempt=1&amp;page=8">8</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link text-primary"
+                                                     href="/admin_page/market/?attempt=1&amp;page=9">9</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link text-primary"
+                                                     href="/admin_page/market/?attempt=1&amp;page=10">10</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link text-primary"
+                                                     href="/admin_page/market/?attempt=1&amp;page=11">11</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link text-primary"
+                                                     href="/admin_page/market/?attempt=1&amp;page=12">12</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link text-primary"
+                                                     href="/admin_page/market/?attempt=1&amp;page=13">13</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link text-primary"
+                                                     href="/admin_page/market/?attempt=1&amp;page=14">14</a>
+                            </li>
+
+
+                            <li class="page-item"><a class="page-link" href="/admin_page/market/?attempt=1&amp;page=2">Keyingisi</a>
+                            </li>
+
+
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
