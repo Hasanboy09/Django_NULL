@@ -1,5 +1,7 @@
+from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Model, ForeignKey, CASCADE, Manager
+from django.db.models import Model, ForeignKey, CASCADE, Manager, CharField, AutoField, BinaryField
 
 
 # Create your models here.
@@ -26,15 +28,30 @@ class Category(Model):
         unique_together = ('name', 'price')  # this provide will unique together
 
 
-
 class OrderedCategory(Category):
     class Meta:
         proxy = True
         ordering = ['-name']
 
 
-
 class SalleManager(Manager):
 
     def get_queryset(self):
         return super().get_queryset().filter(namme__icontains='sale')
+
+
+class Job(Model):
+    name = CharField(max_length=100)
+    # price = AutoField(primary_key=True ) # automatic generate price with order(tartib)
+    count = models.BigAutoField(db_comment="job_name", primary_key=True)
+    image = BinaryField()
+
+
+
+class User(AbstractUser):
+    pass
+
+    def clean(self):
+        super().clean()
+        if self.username.lower() == "botir":
+            raise ValidationError('Botir  taqiqlanadi')
