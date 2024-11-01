@@ -1,0 +1,38 @@
+
+10 table
+
+auth 6
+    auth_user
+django 4
+    django_migrations
+    django_session
+    django_content_type
+    id, app_label, model
+
+
+
+Task
+1. https://docs.djangoproject.com/en/5.1/ref/models/fields/
+2. https://docs.djangoproject.com/en/5.1/ref/models/options/
+3. base64 image database saqlash
+4. base64 image in html
+
+
+
+
+
+
+
+
+select_on_save   -> sal tushunmadim
+
+constraint ->  ✅ unique constraint
+               ✅ check constraint
+
+
+required_db_vendor -> sal tushunmadim
+✅ DateField DD:MM:YY
+✅ DateTimeField  DD:MM:YY  time
+
+
+

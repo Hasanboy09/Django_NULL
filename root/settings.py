@@ -18,7 +18,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
 
-    'apps'
+    'apps',
+    'django_jsonform'
 ]
 
 MIDDLEWARE = [
