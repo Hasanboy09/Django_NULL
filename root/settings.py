@@ -8,6 +8,7 @@ SECRET_KEY = 'django-insecure-m81_%a36fea4ggp+x1)uh+npkgl&2fh$q8+js^@6334v7^d)lh
 DEBUG = True
 
 ALLOWED_HOSTS = []
+hasaaannnanan
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -17,7 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-
+    'hasan'
     'apps'
 ]
 
