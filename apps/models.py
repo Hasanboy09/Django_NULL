@@ -1,10 +1,12 @@
 from datetime import timedelta
 
+import requests
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Model, ForeignKey, CASCADE, Manager, CharField, AutoField, BinaryField, UniqueConstraint, \
-    IntegerField, CheckConstraint, Q, DateTimeField, DateField, DurationField
+    IntegerField, CheckConstraint, Q, DateTimeField, DateField, DurationField, SlugField, URLField
+from django.utils.text import slugify
 from django_jsonform.models.fields import JSONField
 
 
@@ -84,8 +86,8 @@ class Employee(Model):
 class Student(Model):
     first_name = CharField(max_length=100)
     last_name = CharField(max_length=100)
-    joined_at = DateField(auto_now=True)
-    created_at = DateTimeField(auto_now_add=True)
+    joined_at = DateField(auto_now=True) # only date
+    created_at = DateTimeField(auto_now_add=True) # time and date
 
 
 class Event(Model):
@@ -94,7 +96,7 @@ class Event(Model):
     'keys': {
         'age': {
             'type': 'number',
-            'title': 'Age in years',
+            'title': 'Age',
             'default': 50, # default value for age
         },
         'favorite' :{
@@ -106,6 +108,8 @@ class Event(Model):
     duration = DurationField(timedelta(hours=2, minutes=30))
     description = JSONField(schema=SCHEMA, null=True, blank=True)
 
+    def __str__(self):
+        return self.name
 
 #  =======================  Shell =========================
 # Event.objects.create(
@@ -117,5 +121,35 @@ class Event(Model):
 # Event.objects.filter(description__favorite="tiger")
 #  =======================  Shell =========================
 
+
+
+
+class Teacher(Model):
+    name = CharField(max_length=100)
+    slug = SlugField(unique=True , blank=True, editable=False)
+    link = URLField(max_length=200 , unique=True)
+
+
+
+    def save(self, *args, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.slug:
+            self.slug = f"{slugify(self.name)}-{str(self.id)}"
+        super().save(*args, force_insert=force_insert, force_update=force_update, using=using,
+                     update_fields=update_fields)
+
+
+
+
+class Boy(Model):
+    name = CharField(max_length=100)
+    link = URLField(max_length=200 , unique=True)
+
+    def clean(self):
+        try:
+            response = requests.head(self.link, allow_redirects=True)
+            if response.status_code != 200:
+                raise ValidationError(f"The link {self.link} is not valid.")
+        except requests.RequestException as e:
+            raise ValidationError(f"The link {self.link} could not be reached: {e}")
 
 
