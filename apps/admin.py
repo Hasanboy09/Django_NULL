@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.models import Job, Student, Event, Teacher, Boy
+from apps.models import Job, Student, Event, Teacher, Boy, Category, Product, Time
 
 
 # Register your models here.
@@ -33,4 +33,19 @@ class TeacherAdmin(admin.ModelAdmin):
 class BoyAdmin(admin.ModelAdmin):
     pass
 
+
+
+@admin.register(Time)
+class TimeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    pass
 

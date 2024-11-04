@@ -4,40 +4,42 @@ import requests
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Model, ForeignKey, CASCADE, Manager, CharField, AutoField, BinaryField, UniqueConstraint, \
-    IntegerField, CheckConstraint, Q, DateTimeField, DateField, DurationField, SlugField, URLField, UUIDField
+from django.db.models import Model, ForeignKey, CASCADE, Manager, CharField, BinaryField, UniqueConstraint, \
+    IntegerField, CheckConstraint, Q, DateTimeField, DateField, DurationField, SlugField, URLField, UUIDField, TimeField
+from django.utils import timezone
 from django.utils.text import slugify
 from django_jsonform.models.fields import JSONField
 import uuid
 
+
 # Create your models here.
 
 
-class Products(Model):
-    name = models.CharField(max_length=100, db_comment="product_name")
-    price = models.FloatField()
-    category = ForeignKey('apps.Category', on_delete=CASCADE, related_name='products')
+# class Products(Model):
+#     name = models.CharField(max_length=100, db_comment="product_name")
+#     price = models.FloatField()
+#     category = ForeignKey('apps.Category', on_delete=CASCADE, related_name='products')
+#
+#
+# class Category(Model):
+#     name = models.CharField(max_length=100)
+#     price = models.DecimalField(decimal_places=2, max_digits=10)
+#     count = models.IntegerField(default=0)
+#
+#     class Meta:
+#         db_table = 'category'  # table name to database
+#         db_table_comment = "for categories"  # for table comment
+#
+#         get_latest_by = ['name']  # take the latest
+#         ordering = ['name']  # for ordering categories
+#         permissions = ()  # for special permission
+#         unique_together = ('name', 'price')  # this provide will unique together
 
 
-class Category(Model):
-    name = models.CharField(max_length=100)
-    price = models.DecimalField(decimal_places=2, max_digits=10)
-    count = models.IntegerField(default=0)
-
-    class Meta:
-        db_table = 'category'  # table name to database
-        db_table_comment = "for categories"  # for table comment
-
-        get_latest_by = ['name']  # take the latest
-        ordering = ['name']  # for ordering categories
-        permissions = ()  # for special permission
-        unique_together = ('name', 'price')  # this provide will unique together
-
-
-class OrderedCategory(Category):
-    class Meta:
-        proxy = True
-        ordering = ['-name']
+# class OrderedCategory(Category):
+#     class Meta:
+#         proxy = True
+#         ordering = ['-name']
 
 
 class SalleManager(Manager):
@@ -86,30 +88,31 @@ class Employee(Model):
 class Student(Model):
     first_name = CharField(max_length=100)
     last_name = CharField(max_length=100)
-    joined_at = DateField(auto_now=True) # only date
-    created_at = DateTimeField(auto_now_add=True) # time and date
+    joined_at = DateField(auto_now=True)  # only date
+    created_at = DateTimeField(auto_now_add=True)  # time and date
 
 
 class Event(Model):
     SCHEMA = {
-    'type': 'dict',
-    'keys': {
-        'age': {
-            'type': 'number',
-            'title': 'Age',
-            'default': 50, # default value for age
+        'type': 'dict',
+        'keys': {
+            'age': {
+                'type': 'number',
+                'title': 'Age',
+                'default': 50,  # default value for age
+            },
+            'favorite': {
+                'type': 'string',
+            }
         },
-        'favorite' :{
-            'type': 'string',
-        }
-    },
-}
+    }
     name = CharField(max_length=100)
     duration = DurationField(timedelta(hours=2, minutes=30))
     description = JSONField(schema=SCHEMA, null=True, blank=True)
 
     def __str__(self):
         return self.name
+
 
 #  =======================  Shell =========================
 # Event.objects.create(
@@ -122,12 +125,10 @@ class Event(Model):
 #  =======================  Shell =========================
 
 
-
-
 class Teacher(Model):
     name = CharField(max_length=100)
-    slug = SlugField(unique=True , blank=True, editable=False)
-    link = URLField(max_length=200 , unique=True)
+    slug = SlugField(unique=True, blank=True, editable=False)
+    link = URLField(max_length=200, unique=True)
 
     def save(self, *args, init_id=None, **kwargs):
         self.slug = slugify(self.name)
@@ -139,7 +140,7 @@ class Teacher(Model):
 
 class Boy(Model):
     name = CharField(max_length=100)
-    link = URLField(max_length=200 , unique=True)
+    link = URLField(max_length=200, unique=True)
 
     def clean(self):
         try:
@@ -150,18 +151,26 @@ class Boy(Model):
             raise ValidationError(f"The link {self.link} could not be reached: {e}")
 
 
+#  ======================================  Task 1 ==================================================
 
-
-
-
-class Father(Model):
-    id  = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class Category(Model):
+    uuid = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = CharField(max_length=100)
-    created_at = DateTimeField(auto_now_add=True)
 
 
-class Mother(Model):
-    id = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class Product(Model):
+    uuid = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = CharField(max_length=100)
-    created_at = DateTimeField(auto_now_add=True)
+    price = IntegerField()
+    category = ForeignKey('apps.Category', on_delete=CASCADE, related_name='products')
 
+
+# ================================= Task 2 ============================================================
+
+
+class Time(Model):
+    country = CharField(max_length=100)
+    created_at = TimeField()
+    changed_at = DateTimeField()
+
+    # , default = timezone.now
