@@ -5,10 +5,10 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Model, ForeignKey, CASCADE, Manager, CharField, AutoField, BinaryField, UniqueConstraint, \
-    IntegerField, CheckConstraint, Q, DateTimeField, DateField, DurationField, SlugField, URLField
+    IntegerField, CheckConstraint, Q, DateTimeField, DateField, DurationField, SlugField, URLField, UUIDField
 from django.utils.text import slugify
 from django_jsonform.models.fields import JSONField
-
+import uuid
 
 # Create your models here.
 
@@ -129,15 +129,12 @@ class Teacher(Model):
     slug = SlugField(unique=True , blank=True, editable=False)
     link = URLField(max_length=200 , unique=True)
 
-
-
-    def save(self, *args, force_insert=False, force_update=False, using=None, update_fields=None):
-        if not self.slug:
-            self.slug = f"{slugify(self.name)}-{str(self.id)}"
-        super().save(*args, force_insert=force_insert, force_update=force_update, using=using,
-                     update_fields=update_fields)
-
-
+    def save(self, *args, init_id=None, **kwargs):
+        self.slug = slugify(self.name)
+        if not init_id:
+            self.save(*args, init_id=True, **kwargs)
+            self.slug += f"-{self.id}"
+        super().save(*args, **kwargs)
 
 
 class Boy(Model):
@@ -152,4 +149,19 @@ class Boy(Model):
         except requests.RequestException as e:
             raise ValidationError(f"The link {self.link} could not be reached: {e}")
 
+
+
+
+
+
+class Father(Model):
+    id  = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = CharField(max_length=100)
+    created_at = DateTimeField(auto_now_add=True)
+
+
+class Mother(Model):
+    id = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = CharField(max_length=100)
+    created_at = DateTimeField(auto_now_add=True)
 
