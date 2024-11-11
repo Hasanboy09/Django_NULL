@@ -4,12 +4,11 @@ import requests
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Model, ForeignKey, CASCADE, Manager, CharField, BinaryField, UniqueConstraint, \
-    IntegerField, CheckConstraint, Q, DateTimeField, DateField, DurationField, SlugField, URLField, UUIDField, TimeField
+from django.db.models import Model, Manager, CharField, BinaryField, UniqueConstraint, \
+    IntegerField, CheckConstraint, Q, DateTimeField, DateField, DurationField, SlugField, URLField
 from django.utils import timezone
 from django.utils.text import slugify
 from django_jsonform.models.fields import JSONField
-import uuid
 
 
 # Create your models here.
@@ -41,9 +40,7 @@ import uuid
 #         proxy = True
 #         ordering = ['-name']
 
-
 class SalleManager(Manager):
-
     def get_queryset(self):
         return super().get_queryset().filter(namme__icontains='sale')
 
@@ -63,7 +60,6 @@ class Bag(Model):
 
 
 class User(AbstractUser):
-
     def save(self, *args, **kwargs):
         if 'botir' in self.username.lower():
             raise ValidationError('Username atmen!')
@@ -152,25 +148,78 @@ class Boy(Model):
 
 
 #  ======================================  Task 1 ==================================================
-
-class Category(Model):
-    uuid = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = CharField(max_length=100)
-
-
-class Product(Model):
-    uuid = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = CharField(max_length=100)
-    price = IntegerField()
-    category = ForeignKey('apps.Category', on_delete=CASCADE, related_name='products')
-
+#
+# class Category(Model):
+#     uuid = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+#     name = CharField(max_length=100)
+#
+#
+# class Product(Model):
+#     uuid = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+#     name = CharField(max_length=100)
+#     price = IntegerField()
+#     category = ForeignKey('apps.Category', on_delete=CASCADE, related_name='products')
+#
 
 # ================================= Task 2 ============================================================
 
 
-class Time(Model):
-    country = CharField(max_length=100)
-    created_at = TimeField()
-    changed_at = DateTimeField()
+# class Time(Model):
+#     country = CharField(max_length=100)
+#     created_at = TimeField()
+#     changed_at = DateTimeField()
+#
+#     # , default = timezone.now
 
-    # , default = timezone.now
+
+# ===================================   1-  variant ========================================================
+
+# class Category(Model):
+#     id = BigAutoField(unique=True, primary_key=True)
+#     uuid = UUIDField(default=uuid.uuid4, editable=False, unique=True)
+#     name = CharField(max_length=100)
+#     slug = SlugField(unique=True)
+#
+#     def save(self, *args, **kwargs):
+#         self.slug = slugify(self.name)
+#         super().save(*args, **kwargs)
+#
+#
+# class Product(Model):
+#     name = CharField(max_length=100)
+#     category = ForeignKey('apps.Category', on_delete=CASCADE)
+
+
+# ===================================   2-  variant ========================================================
+
+# class Category(Model):
+#     id = BigAutoField(unique=True, primary_key=True)
+#     uuid = UUIDField(default=uuid.uuid4, editable=False, unique=True)
+#     name = CharField(max_length=100)
+#     slug = SlugField(unique=True)
+#
+#     def save(self, *args, **kwargs):
+#         self.slug = slugify(self.name)
+#         super().save(*args, **kwargs)
+#
+#
+# class Product(Model):
+#     name = CharField(max_length=100)
+#     category = ForeignKey('apps.Category', on_delete=CASCADE ,to_field='uuid')
+
+
+import calendar
+
+
+def time_valid(value):
+    time = timezone.now().minute
+    if time % 2 != 0:
+        raise ValidationError(f"Vaqt {time} juft emas.")
+    return value
+
+
+class Month(Model):
+    month = IntegerField(choices=enumerate(list(calendar.month_name)[1:], start=1), validators=[time_valid])
+
+    def __str__(self):
+        return list(calendar.month_name)[self.month]
