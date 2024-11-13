@@ -5,7 +5,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Model, Manager, CharField, BinaryField, UniqueConstraint, \
-    IntegerField, CheckConstraint, Q, DateTimeField, DateField, DurationField, SlugField, URLField
+    IntegerField, CheckConstraint, Q, DateTimeField, DateField, DurationField, SlugField, URLField, \
+    PositiveIntegerField, ForeignKey, CASCADE
 from django.utils import timezone
 from django.utils.text import slugify
 from django_jsonform.models.fields import JSONField
@@ -214,7 +215,7 @@ import calendar
 def time_valid(value):
     time = timezone.now().minute
     if time % 2 != 0:
-        raise ValidationError(f"Vaqt {time} juft emas.")
+        raise ValidationError(f"Vaqt {timezone.now()} juft emas.")
     return value
 
 
@@ -223,3 +224,26 @@ class Month(Model):
 
     def __str__(self):
         return list(calendar.month_name)[self.month]
+
+
+# =======================================================================================
+
+
+
+class Category(Model):
+    name = CharField(max_length=100)
+
+    class Meta:
+        db_table = 'category'
+
+
+class Product(Model):
+    name = CharField(max_length=100)
+    price = PositiveIntegerField(default=1000)
+    category = ForeignKey('apps.Category', CASCADE, related_name='products')
+    count = PositiveIntegerField(default=10)
+
+
+    class Meta:
+        db_table = 'product'
+
