@@ -242,6 +242,7 @@ class Product(Model):
     price = PositiveIntegerField(default=1000)
     category = ForeignKey('apps.Category', CASCADE, related_name='products')
     count = PositiveIntegerField(default=10)
+    created_at = DateTimeField(auto_now_add=True)
 
 
     class Meta:
