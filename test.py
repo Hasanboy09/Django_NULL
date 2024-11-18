@@ -1,7 +1,9 @@
 import os
+from datetime import datetime
 
 import django
-from django.db.models import Q, Value
+from django.db import transaction
+from django.db.models import Q, Value, F, Min
 from django.db.models.aggregates import Sum
 from django.db.models.fields import CharField
 
@@ -102,9 +104,7 @@ django.setup()
 # ===========================  dates() ============================
 
 
-
 from apps.models import Product, Category
-
 
 # a = Category.objects.filter(name__icontains='texnika').values('name')
 # b = Product.objects.filter(name__icontains='texnika').values('name')
@@ -145,11 +145,113 @@ Eski texnika
 #     print(product.name)
 
 
+# ==============================================  raw  ===============================================
+# from apps.models import Product
+#
+# product_id = input('id: ')
+# products = Product.objects.raw("select * from product where id=%s" % product_id)
+# for product in products:
+#     print(product.name , product.price)
+#
+#
 
-# ==============================================  defer  ===============================================
-from apps.models import Product
 
-product_id = input('id: ')
-products = Product.objects.raw("select * from product where id=%s" % product_id)
-for product in products:
-    print(product.name , product.price)
+# ==========================================  and  ================================================
+
+# from apps.models import Product
+# products = Product.objects.filter(Q(name__icontains='texnika') & Q(category__name__icontains='texnika'))
+# for product in products:
+#     print(product.name , product.price)
+#
+
+
+# ==========================================  or  ================================================
+
+# from apps.models import Product
+# products = Product.objects.filter(Q(name__icontains='texnika') | Q(category__name__icontains='texnika'))
+# for product in products:
+#     print(product.name , product.price)
+
+
+# ==========================================  get_or_create()  ================================================
+
+# from apps.models import Product
+#
+#
+# obj,created = Product.objects.get_or_create(
+#     name='Chayonlar vodiysi',
+#     count=20,
+#     category_id=1,
+#
+#     defaults={"name": "redmi"}
+# )
+
+
+# ========================================  bulk_create ==================================================
+
+#  bitta query orqali ko`p yaratish imkonini beradi , save() ishlatilmaydi
+
+# from apps.models import Product
+#
+# products = Product.objects.bulk_create(
+#     [
+#         Product(name='Choynik', price=25000, category_id=4, count=40, created_at=datetime.now()),
+#         Product(name='piyola', price=5000, category_id=4, count=80, created_at=datetime.now()),
+#     ]
+# )
+#
+#
+
+
+# products = [
+#     Product(name=f"Product {i}", price=i * 10 , category_id=2 , count=i*2)
+#     for i in range(1, 1001)
+# ]
+#
+# # Ommaviy yaratish, har bir batch uchun 100 yozuv
+# Product.objects.bulk_create(products, batch_size=100)
+
+# batch_size -> har yaratganda nechta yaratib kelishi
+
+
+
+
+# ======================= Task =======================
+
+# ======= task 1
+
+# from apps.models import Product
+#
+# product = Product.objects.filter(Q(category__name='meva') | Q(name='banan')).update(price = 25000)
+
+
+
+# ====== task 2
+
+# from apps.models import Product
+#
+# product = Product.objects.filter(category__name='meva').update(price = F('price' ) *2)
+
+
+#  ===========================================  in_bulk =======================================
+
+
+# from apps.models import Product
+# product = Product.objects.in_bulk([1 ,4 ,6] , field_name='id')
+#
+
+
+#  ===========================================  iterator  =======================================
+
+# from apps.models import Product
+# a = Product.objects.iterator(chunk_size=2)
+# for p in a:
+#     print(p.name)
+
+
+
+
+#  ===========================================  task  =======================================
+
+
+
