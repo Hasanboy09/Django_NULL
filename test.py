@@ -4,8 +4,9 @@ from datetime import datetime
 import django
 from django.db import transaction
 from django.db.models import Q, Value, F, Min
-from django.db.models.aggregates import Sum
+from django.db.models.aggregates import Sum, Count
 from django.db.models.fields import CharField
+from django.db.models.functions import Coalesce
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'root.settings')
 django.setup()
@@ -104,7 +105,7 @@ django.setup()
 # ===========================  dates() ============================
 
 
-from apps.models import Product, Category
+from apps.models import Product, Category, User
 
 # a = Category.objects.filter(name__icontains='texnika').values('name')
 # b = Product.objects.filter(name__icontains='texnika').values('name')
@@ -214,8 +215,6 @@ Eski texnika
 # batch_size -> har yaratganda nechta yaratib kelishi
 
 
-
-
 # ======================= Task =======================
 
 # ======= task 1
@@ -223,7 +222,6 @@ Eski texnika
 # from apps.models import Product
 #
 # product = Product.objects.filter(Q(category__name='meva') | Q(name='banan')).update(price = 25000)
-
 
 
 # ====== task 2
@@ -249,9 +247,45 @@ Eski texnika
 #     print(p.name)
 
 
-
-
 #  ===========================================  task  =======================================
+# from django.db.models import F, Min, Sum
+#
+# price_min = Product.objects.aggregate(price_min=Min('price'))['price_min']
+#
+# if price_min is not None:
+#     total_price = Product.objects.aggregate(total_price=Sum(F('price') + price_min))['total_price']
+#     print(total_price)
+# else:
+#     print("Mahsulotlar mavjud emas yoki narxlar noto'g'ri.")
+
+
+
+# task 1
+# products = Product.objects.values('name', 'category').annotate(sum=Sum('price'))
+# for i in products:
+#     print(i)
+
+
+# task 2
+# products = Product.objects.values('name', 'category').annotate(sum=Sum('price') , product_count = Count('name'))
+# for i in products:
+#     print(i)
+
+
+# task 3
+# users = User.objects.filter(date_joined__year=2020)
+#
+# for user in users:
+#     print(user.username)
+
+
+
+# products = Product.objects.filter(price__range=(2000 , 3500)).filter(Q(description__isnull=False) & Q(name__icontains='a'))
+products = Product.objects.filter(price__range=(2000 , 3500), description__isnull=False, name__icontains='a')
+for product in products:
+    print(product.name)
+
+
 
 
 

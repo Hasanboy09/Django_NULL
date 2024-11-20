@@ -7,6 +7,7 @@ from django.db import models
 from django.db.models import Model, Manager, CharField, BinaryField, UniqueConstraint, \
     IntegerField, CheckConstraint, Q, DateTimeField, DateField, DurationField, SlugField, URLField, \
     PositiveIntegerField, ForeignKey, CASCADE
+from django.db.models.fields import TextField
 from django.utils import timezone
 from django.utils.text import slugify
 from django_jsonform.models.fields import JSONField
@@ -242,7 +243,9 @@ class Product(Model):
     price = PositiveIntegerField(default=1000)
     category = ForeignKey('apps.Category', CASCADE, related_name='products')
     count = PositiveIntegerField(default=10)
+    user = ForeignKey('apps.User', CASCADE, related_name='products')
     created_at = DateTimeField(auto_now_add=True)
+    description = TextField(null=True, blank=True)
 
 
     class Meta:
