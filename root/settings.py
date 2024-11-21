@@ -7,9 +7,10 @@ SECRET_KEY = 'django-insecure-m81_%a36fea4ggp+x1)uh+npkgl&2fh$q8+js^@6334v7^d)lh
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.contenttypes',
@@ -19,7 +20,7 @@ INSTALLED_APPS = [
 
     'apps',
     'django_jsonform',
-    'daphne'
+
 ]
 
 MIDDLEWARE = [
@@ -51,7 +52,6 @@ TEMPLATES = [
         },
     },
 ]
-
 
 WSGI_APPLICATION = "root.wsgi.application"
 ASGI_APPLICATION = "root.asgi.application"
@@ -98,14 +98,12 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/') # noqa
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')  # noqa
 
 MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # noqa
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')  # noqa
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
 
 LOGGING = {
     'version': 1,
