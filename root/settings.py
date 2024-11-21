@@ -18,7 +18,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'apps',
-    'django_jsonform'
+    'django_jsonform',
+    'daphne'
 ]
 
 MIDDLEWARE = [
@@ -51,7 +52,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'root.wsgi.application'
+
+WSGI_APPLICATION = "root.wsgi.application"
+ASGI_APPLICATION = "root.asgi.application"
 
 DATABASES = {
     'default': {

@@ -281,9 +281,9 @@ Eski texnika
 
 
 # products = Product.objects.filter(price__range=(2000 , 3500)).filter(Q(description__isnull=False) & Q(name__icontains='a'))
-products = Product.objects.filter(price__range=(2000 , 3500), description__isnull=False, name__icontains='a')
-for product in products:
-    print(product.name)
+# products = Product.objects.filter(price__range=(2000 , 3500), description__isnull=False, name__icontains='a')
+# for product in products:
+#     print(product.name)
 
 
 
