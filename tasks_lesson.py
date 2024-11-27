@@ -234,6 +234,8 @@ Eski texnika
 #  ===========================================  in_bulk =======================================
 
 
+
+
 # from apps.models import Product
 # product = Product.objects.in_bulk([1 ,4 ,6] , field_name='id')
 #
