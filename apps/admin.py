@@ -1,6 +1,7 @@
 from django.contrib import admin
+from django.contrib.admin import ModelAdmin
 
-from apps.models import Job, Student, Event, Teacher, Boy, Month, Category, Product
+from apps.models import Job, Student, Event, Teacher, Boy, Month, Category, Product, ProductImage, Films, Genres
 
 
 # Register your models here.
@@ -49,3 +50,22 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     pass
+
+
+
+@admin.register(ProductImage)
+class ProductImageAdmin(admin.ModelAdmin):
+    pass
+
+
+
+@admin.register(Films)
+class FilmsAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Genres)
+class FilmsAdmin(ModelAdmin):
+    pass
+
+

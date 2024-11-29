@@ -1,8 +1,8 @@
 from django.urls import path
 
-from apps.views import hello_world_view
+from apps.views import FilmstListView, GenreListApiView
 
 urlpatterns = [
-    path('hello/', hello_world_view, name='hello-world'),
-
+    path('genres', GenreListApiView.as_view() , name='genres'),
+    path('films' , FilmstListView.as_view() , name='films' ),
 ]

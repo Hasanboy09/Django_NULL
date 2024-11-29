@@ -3,10 +3,11 @@ from datetime import timedelta
 import requests
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.db.models import Model, Manager, CharField, BinaryField, UniqueConstraint, \
     IntegerField, CheckConstraint, Q, DateTimeField, DateField, DurationField, SlugField, URLField, \
-    PositiveIntegerField, ForeignKey, CASCADE
+    PositiveIntegerField, ForeignKey, CASCADE, ImageField, ManyToManyField
 from django.db.models.fields import TextField
 from django.utils import timezone
 from django.utils.text import slugify
@@ -231,7 +232,7 @@ class Month(Model):
 # =======================================================================================
 
 
-
+#
 class Category(Model):
     name = CharField(max_length=100)
 
@@ -244,11 +245,42 @@ class Product(Model):
     price = PositiveIntegerField(default=1000)
     category = ForeignKey('apps.Category', CASCADE, related_name='products')
     count = PositiveIntegerField(default=10)
-    user = ForeignKey('apps.User', CASCADE, related_name='products')
-    created_at = DateTimeField(auto_now_add=True)
-    description = TextField(null=True, blank=True)
 
 
     class Meta:
         db_table = 'product'
+
+def check_image_size(value):
+    if value.size > (10 * 1024 * 1024):
+        raise ValidationError("Image too big.")
+    return value
+
+class ProductImage(Model):
+    product = ForeignKey('apps.Product', CASCADE, related_name='images')
+    image = ImageField(upload_to='products/images',  validators=[FileExtensionValidator(['jpg', 'jpeg' , 'png']) , check_image_size] )
+
+
+    class Meta:
+        db_table = 'product_image'
+
+
+
+
+
+
+
+class Films(Model):
+    title = CharField(max_length=100)
+    released_date = DateField()
+    genres = ManyToManyField('apps.Genres',  related_name='films')
+
+
+    def __str__(self):
+        return self.title
+
+class Genres(Model):
+    name = CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
 
